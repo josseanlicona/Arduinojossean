@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Simulador Arduino - Jossean</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      margin-top: 60px;
+    }
+    input {
+      font-size: 22px;
+      padding: 10px;
+      width: 150px;
+      text-align: center;
+    }
+    button {
+      font-size: 22px;
+      padding: 10px 20px;
+      margin-top: 20px;
+      background: orange;
+      border: none;
+      border-radius: 8px;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Simulador Arduino</h1>
+  <h2>Enviar temperatura a Firebase</h2>
+
+  <input type="number" id="temp" placeholder="Ej: 28">
+  <br>
+  <button onclick="sendTemp()">Enviar</button>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-database.js";
+
+const firebaseConfig = {
+  databaseURL: "https://arduinojossean-c0c82-default-rtdb.firebaseio.com/"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+window.sendTemp = function() {
+  const value = document.getElementById("temp").value;
+  if (value === "") {
+    alert("Ingresa un número");
+    return;
+  }
+
+  set(ref(db, "arduinojossean/temperatura"), Number(value))
+    .then(() => alert("Temperatura enviada: " + value + "°C"))
+    .catch(err => alert("Error: " + err));
+};
+</script>
+
+</body>
+</html>
