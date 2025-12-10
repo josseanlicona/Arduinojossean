@@ -1,3 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Arduino Jossean – Temperatura</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding-top: 40px;
+        background: #f4f4f4;
+    }
+
+    h1 {
+        color: #ff7a00;
+        font-size: 40px;
+        margin-bottom: 10px;
+    }
+
+    #container {
+        background: white;
+        width: 350px;
+        margin: auto;
+        padding: 25px;
+        border-radius: 15px;
+        box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+
+    #temp {
+        font-size: 60px;
+        font-weight: bold;
+        margin-top: 10px;
+        color: #222;
+    }
+
+    img {
+        width: 150px;
+        margin-top: 10px;
+    }
+</style>
+</head>
+
+<body>
+
+<h1>Arduino Jossean</h1>
+
+<div id="container">
+    <img src="https://cdn-icons-png.flaticon.com/512/1684/1684375.png" alt="Thermometer">
+    <div id="temp">Cargando...</div>
+</div>
+
 <script>
 const url = "https://arduinojossean-c0c82-default-rtdb.firebaseio.com/Temperatura.json";
 
@@ -5,14 +57,16 @@ async function cargarTemperatura() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        document.getElementById("temp").textContent = data ?? "null";
-    } catch (e) {
+
+        document.getElementById("temp").textContent = data + " °C";
+    } catch (error) {
         document.getElementById("temp").textContent = "Error";
     }
 }
 
-// Cargar cada 2 segundos sin recargar la página
 setInterval(cargarTemperatura, 2000);
-
 cargarTemperatura();
 </script>
+
+</body>
+</html>
